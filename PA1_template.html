@@ -187,7 +187,7 @@ hljs.initHighlightingOnLoad();
 
 <h2>Loading and preprocessing the data</h2>
 
-<p>Read in the data.</p>
+<p>We check if the file is available then we read it</p>
 
 <pre><code class="r">if(!file.exists(&#39;repdata-data-activity/activity.csv&#39;)){
     unzip(&#39;repdata-data-activity/activity.zip&#39;)
@@ -195,7 +195,7 @@ hljs.initHighlightingOnLoad();
 activity &lt;- read.csv(&#39;repdata-data-activity/activity.csv&#39;)
 </code></pre>
 
-<p>Create a date.time column that combines the date and interval columns.</p>
+<p>Creation of a column who combines the date and interval columns.</p>
 
 <pre><code class="r">time &lt;- formatC(activity$interval / 100, 2, format=&#39;f&#39;)
 activity$date.time &lt;- as.POSIXct(paste(activity$date, time),
@@ -358,11 +358,11 @@ activity.imputed$day.type &lt;- as.factor(day.types)
 
 <p>Create a dataframe that holds the mean steps for weekdays and weekends.</p>
 
-<pre><code class="r">mean.steps &lt;- tapply(activity.imputed$steps, 
+<pre><code class="r">meansteps &lt;- tapply(activity.imputed$steps, 
                      interaction(activity.imputed$time,
                                  activity.imputed$day.type),
                      mean, na.rm=TRUE)
-day.type.pattern &lt;- data.frame(time=as.POSIXct(names(mean.steps)),
+daypattern &lt;- data.frame(time=as.POSIXct(names(mean.steps)),
                                mean.steps=mean.steps,
                                day.type=as.factor(c(rep(&#39;weekday&#39;, 288),
                                                    rep(&#39;weekend&#39;, 288))))
@@ -373,7 +373,7 @@ day.type.pattern &lt;- data.frame(time=as.POSIXct(names(mean.steps)),
 
 <p>Now let&#39;s compare the patterns between weekdays and weekends.</p>
 
-<pre><code class="r">ggplot(day.type.pattern, aes(time, mean.steps)) + 
+<pre><code class="r">ggplot(daypattern, aes(time, meansteps)) + 
     geom_line() +
     xlab(&#39;Time of day&#39;) +
     ylab(&#39;Mean number of steps&#39;) +
@@ -381,7 +381,7 @@ day.type.pattern &lt;- data.frame(time=as.POSIXct(names(mean.steps)),
     facet_grid(. ~ day.type)
 </code></pre>
 
-<pre><code>## Error: objet &#39;day.type.pattern&#39; introuvable
+<pre><code>## Error: objet &#39;daypattern&#39; introuvable
 </code></pre>
 
 </body>

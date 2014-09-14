@@ -6,7 +6,7 @@
 
 ## Loading and preprocessing the data
 
-Read in the data.
+We check if the file is available then we read it
 
 ```r
 if(!file.exists('repdata-data-activity/activity.csv')){
@@ -15,7 +15,7 @@ if(!file.exists('repdata-data-activity/activity.csv')){
 activity <- read.csv('repdata-data-activity/activity.csv')
 ```
 
-Create a date.time column that combines the date and interval columns.
+Creation of a column who combines the date and interval columns.
 
 ```r
 time <- formatC(activity$interval / 100, 2, format='f')
@@ -206,11 +206,11 @@ activity.imputed$day.type <- as.factor(day.types)
 Create a dataframe that holds the mean steps for weekdays and weekends.
 
 ```r
-mean.steps <- tapply(activity.imputed$steps, 
+meansteps <- tapply(activity.imputed$steps, 
                      interaction(activity.imputed$time,
                                  activity.imputed$day.type),
                      mean, na.rm=TRUE)
-day.type.pattern <- data.frame(time=as.POSIXct(names(mean.steps)),
+daypattern <- data.frame(time=as.POSIXct(names(mean.steps)),
                                mean.steps=mean.steps,
                                day.type=as.factor(c(rep('weekday', 288),
                                                    rep('weekend', 288))))
@@ -223,7 +223,7 @@ day.type.pattern <- data.frame(time=as.POSIXct(names(mean.steps)),
 Now let's compare the patterns between weekdays and weekends.
 
 ```r
-ggplot(day.type.pattern, aes(time, mean.steps)) + 
+ggplot(daypattern, aes(time, meansteps)) + 
     geom_line() +
     xlab('Time of day') +
     ylab('Mean number of steps') +
@@ -232,5 +232,5 @@ ggplot(day.type.pattern, aes(time, mean.steps)) +
 ```
 
 ```
-## Error: objet 'day.type.pattern' introuvable
+## Error: objet 'daypattern' introuvable
 ```
